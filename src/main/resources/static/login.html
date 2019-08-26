@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <HTML xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <HEAD>
+        <META content="IE=11.0000"
+              http-equiv="X-UA-Compatible">
+
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <TITLE></TITLE>
+        <LINK href="css/style.css" rel="stylesheet" type="text/css">
+        <LINK href="css/style1.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/MiniDialog-es5.min.js"></script>
+<!--    <script type="text/javascript" src="js/Validform_v5.3.2_min.js"></script>-->
+    <SCRIPT type="text/javascript">
+        window.onload = function () {
+            var input = document.getElementById("loginBox").getElementsByTagName("input");
+            for (i = 0; i < input.length; i++) {
+                var type = input[i].getAttribute("type");
+                if (type == "text" || type == "password") {
+                    input[i].onfocus = function () {
+                        this.className += " input-text-over";
+                    }
+                    input[i].onblur = function () {
+                        this.className = this.className.replace(/input-text-over/, "");
+                    }
+                } else if (type == "submit") {
+                    input[i].onmouseover = function () {
+                        this.className += " input-submit-over";
+                    }
+                    input[i].onmouseout = function () {
+                        this.className = this.className.replace(/input-button-over/, "");
+                    }
+                }
+            }
+        }
+    </SCRIPT>
+
+    <META name="GENERATOR" content="MSHTML 11.00.10586.420">
+</HEAD>
+<BODY>
+<DIV class="wrap" id="header"><IMG src="images/logo.gif"></DIV>
+<DIV class="wrap" id="login">
+    <DIV class="main">
+        <DIV class="corner"></DIV>
+        <DIV class="introduce">
+            <H2>北大青鸟</H2>
+            <P>网上调查系统...</P></DIV>
+        <DIV class="login">
+            <H2>用户登录</H2>
+            <FORM action="vote_springboot_war/login" method="post" class="demoform">
+                <DL id="loginBox">
+                    <DT>用户名：</DT>
+                    <DD><INPUT th:value="${userName}" name="userName" class="input-text form-control"  datatype="s"  type="text" nullmsg="请输入用户名"></DD>
+                    <DT>密　码：</DT>
+                    <DD><INPUT  th:value="${password}" name="password" class="input-text form-control"  datatype="s"  type="password" nullmsg="请输入密码"></DD>
+                    <DT></DT>
+                    <DD><INPUT name="submit" class="input-button" type="submit" value="登录"> <A
+                            href="regist.html">新用户注册</A></DD>
+                </DL>
+            </FORM>
+            <DIV class="error"></DIV>
+        </DIV>
+    </DIV>
+</DIV>
+<DIV class="wrap"></DIV>
+<DIV class="wrap" id="footer"> 北大青鸟 © 版权所有</DIV>
+</BODY>
+</HTML>
+<script th:inline="javascript">-->
+  // function getQueryString(name) {-->
+  //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");-->
+  //     var r = window.location.search.substr(1).match(reg);-->
+  //     if (r != null)-->
+   //         return unescape(r[2]);-->
+  //     return null;-->
+   // }-->
+  $(window).ready(function(){
+        if([[${code}]]=="2001"){
+           Dialog.info( "系统提示:", "账号或密码错误,请重新输入" );
+        }
+      if([[${code}]]=="2002"){
+          Dialog.info( "系统提示:", "该用户已经登陆" );
+      }
+   })
+
+</script>

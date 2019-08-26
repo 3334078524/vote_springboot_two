@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML
+        xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<HEAD>
+    <META content="IE=11.0000"
+          http-equiv="X-UA-Compatible">
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>投票列表</TITLE>
+    <LINK href="../css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../js/MiniDialog-es5.min.js"></script>
+    <META name="GENERATOR" content="MSHTML 11.00.10586.420">
+</HEAD>
+<BODY>
+<DIV class="wrap" id="header"><IMG src="../images/logo.gif" th:src="@{/images/logo.gif}"></DIV>
+<DIV class="wrap" id="navbar">
+    <DIV class="profile">您好，<span th:text="${session.user.userName}"></span> <SPAN class="return"><A
+            href="/subjectController/showAll">返回列表</A></SPAN>
+        <SPAN class="addnew"><A href="" th:href="@{'/add.html'(userName=${session.user.userName})}" th:if="${session.user.isAdmin eq 0}">添加新投票</A></SPAN>
+        <SPAN class="modify"><A href="../add.html" th:if="${session.user.isAdmin eq 0}">维护</A></SPAN>
+        <SPAN class="return"><A
+                th:href="@{'/exit'(uId=${session.user.userName})}">注销</A></SPAN></DIV>
+    <DIV class="search">
+        <FORM action="/subjectController/showAll" method="post"><INPUT name="keywords" class="input-text" type="text" th:value="${title}"><INPUT
+                name="submit" class="input-button" type="submit" value=""/>
+        </FORM>
+    </DIV>
+</DIV>
+<DIV class="wrap" id="vote">
+    <H2>投票列表</H2>
+    <DIV style="float: right;">
+        <A th:href="@{'/subjectController/showAll?index=1'(keywords=${title})}">首页</A>
+        | <a th:href="@{'/subjectController/showAll'(index=${index-1} &gt;0?${index-1}:${index},keywords=${title})}" class="shan">上一页 </a>
+        | <a href="#" th:href="@{'/subjectController/showAll'(index=${index+1} &gt; ${showAll.pages}?${index}:${index+1},keywords=${title})}" class="xia">下一页 </a>
+        |
+        <A th:href="@{'/subjectController/showAll?'(id=${showAll['pages']},keywords=${title})}">末页</A>
+    </DIV>
+    <BR>
+    <UL class="list">
+
+        <LI th:each="prod,prstar:${showAll.getList()}">
+            <H4><a href="showPoll?id=${prod.sid}" th:href="@{'/subjectController/showPoll?id='+${prod['sid']}}" th:text="${prod['title']}"></a>
+            </H4>
+            <DIV class="join" th:if="${session.user.isAdmin eq 1}">
+                <A href="" th:href="@{'/subjectController/canyu?id='+${prod['sid']}}" th:if="${session.user.isAdmin eq 1}">我要参与</A>
+            </DIV>
+            <em th:if="${session.user.isAdmin eq 0}" style="float: right;">
+                <A href="" th:href="@{'/subjectController/weihu?id='+${prod['sid']}}" style="background: url(../images/edit.gif) 4px no-repeat;
+            display: inline-block; width: 50px; text-indent: 2em;" th:if="${session.user.isAdmin eq 0}">维护</A>
+                <A href="" th:href="@{'/subjectController/shanchu?id='+${prod['sid']}}"  th:if="${session.user.isAdmin eq 0}" onclick="return confirm('确认是否删除')">删除</A>
+            </em>
+            <P class="info">共有<span th:text="${prod['choose']}"></span>  个选项，已有<span th:text="${prod['poll']}"></span>  个投票。</P></LI>
+        <DIV style="float: right;">
+        <A th:href="@{'/subjectController/showAll?index=1'(keywords=${title})}">首页</A>
+        | <a th:href="@{'/subjectController/showAll'(index=${index-1} &gt;0?${index-1}:${index},keywords=${title})}" class="shan">上一页</a> |<a href="#" th:href="@{'/subjectController/showAll'(index=${index+1} &gt; ${showAll.pages}?${index}:${index+1},keywords=${title})}" class="xia"> 下一页</a> |
+        <A  th:href="@{'/subjectController/showAll'(id=${showAll['pages']},keywords=${title})}">末页</A>
+    </DIV>
+    </UL>
+</DIV>
+<DIV class="wrap" id="footer"> 北大青鸟 © 版权所有</DIV>
+</BODY>
+</HTML>
+<script th:inline="javascript">
+    // $(function(){
+    //     var index=1;
+    //     $("a.shang").click(function(){
+    //         index=index-1;
+    //         alert(index);
+    //         location.href="/showAll?id="+index;
+    //     });
+    //     $("a.xia").click(function(){
+    //         index=index+1;
+    //         alert(index);
+    //         location.href="/showAll?id="+index;
+    //     });
+    //     $("span.shang").hover(function(){
+    //         alert("sss");
+    //         $(this).css({"cursor":"pointer","border-bottom": "1px solid blue"});
+    //     });
+    // })
+    window.onload=function(){
+        if([[${sb}]]==7788){
+            Dialog.info( "系统提示:", "删除失败" );
+        }
+        if([[${sb}]]==7780){
+            Dialog.info( "系统提示:", "删除成功" );
+        }
+    }
+</script>
